@@ -39,7 +39,7 @@ class AppDatabase {
         }
     }
 
-    // Заполняем дефолтные категории при первом запуске
+
     class PrepopulateCallback : RoomDatabase.Callback() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
