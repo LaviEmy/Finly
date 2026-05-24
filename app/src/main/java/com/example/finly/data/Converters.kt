@@ -1,6 +1,7 @@
 package com.example.finly.data
 
-import androidx.room3.TypeConverter
+import androidx.room.TypeConverter
+
 
 class Converters {
     @TypeConverter
