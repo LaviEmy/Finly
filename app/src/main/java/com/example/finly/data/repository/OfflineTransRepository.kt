@@ -1,8 +1,14 @@
-package com.example.finly.data
+package com.example.finly.data.repository
 
+import com.example.finly.data.model.Transaction
+import com.example.finly.data.repository.TransactionsRepository
+import com.example.finly.data.dao.CategoryTotal
+import com.example.finly.data.dao.TransactionDao
 import kotlinx.coroutines.flow.Flow
 
-class OfflineTransRepository (private val transactionDao: TransactionDao) : TransactionsRepository{
+class OfflineTransRepository (private val transactionDao: TransactionDao) : TransactionsRepository {
+
+    override fun getAllTransactions(): Flow<List<Transaction>> = transactionDao.getAllTransactions()
 
     override fun getTransactionsByType(type: String): Flow<List<Transaction>> = transactionDao.getTransactionsByType(type)
 

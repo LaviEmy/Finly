@@ -1,13 +1,15 @@
-package com.example.finly.data
+package com.example.finly.data.local
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-
 import androidx.sqlite.db.SupportSQLiteDatabase
-
+import com.example.finly.data.model.Category
+import com.example.finly.data.dao.CategoryDao
+import com.example.finly.data.model.Transaction
+import com.example.finly.data.dao.TransactionDao
 
 class AppDatabase {
     @Database(

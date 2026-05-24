@@ -1,7 +1,7 @@
-package com.example.finly.data
+package com.example.finly.data.local
 
 import androidx.room.TypeConverter
-
+import com.example.finly.data.model.TransactionType
 
 class Converters {
     @TypeConverter
