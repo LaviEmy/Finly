@@ -1,7 +1,7 @@
 package com.example.finly.ui.theme
 
 import androidx.compose.ui.graphics.Color
-
+//https://material-foundation.github.io/material-theme-builder/
 val primaryLight = Color(0xFF4C662B)
 val onPrimaryLight = Color(0xFFFFFFFF)
 val primaryContainerLight = Color(0xFFCDEDA3)

@@ -9,5 +9,6 @@ data class Category(
     val id: Int = 0,
     val nameResId: String,
     val isForIncome: Boolean,
-    val isDefault: Boolean = false
+    val isDefault: Boolean = false,
+    val color: String = "#4CAF50"  // hex
 )
