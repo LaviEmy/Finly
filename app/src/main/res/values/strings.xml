@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Finly</string>
+    <string name="screen_home">Home</string>
+    <string name="screen_income">Income</string>
+    <string name="screen_expenses">Expences</string>
+    <string name="screen_goals">Savings</string>
+    <string name="screen_debts">Debts</string>
+    <string name="screen_subscriptions">Subscription</string>
+    <string name="screen_settings">Settings</string>
 </resources>
