@@ -1,5 +1,6 @@
 package com.example.finly.ui.screens
 
+import android.graphics.Color as AndroidColor
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,20 +20,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.graphics.toColorInt
+import com.example.finly.R
 import com.example.finly.data.model.TransactionType
 import com.example.finly.viewModel.BudgetViewModel
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import com.example.finly.R
-
 
 @Composable
 fun HomeScreen(viewModel: BudgetViewModel) {
     val transactions by viewModel.transactions.collectAsState()
     val categories by viewModel.allCategories.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
+    val totalIncome = transactions.filter { it.type == TransactionType.INCOME }.sumOf { it.amount }
+    val totalExpense = transactions.filter { it.type == TransactionType.EXPENSE }.sumOf { it.amount }
 
     val expensesByCategory = transactions
         .filter { it.type == TransactionType.EXPENSE }
@@ -61,29 +63,35 @@ fun HomeScreen(viewModel: BudgetViewModel) {
                                 legend.isEnabled = false
                             }},
                             update = { chart ->
-                                val entries = if (expensesByCategory.isEmpty()) listOf(
-                                    PieEntry(
-                                        1f,
-                                        ""
-                                    )
-                                )
-                                else expensesByCategory.entries.map { (catId, amount) ->
-                                    PieEntry(amount.toFloat(), categories.find { it.id == catId }?.nameResId ?: "")
-                                }
+                                val entries = mutableListOf<PieEntry>()
+                                val chartColors = mutableListOf<Int>()
 
-                                // Достаем цвета прямо из базы данных
-                                val chartColors = if (expensesByCategory.isEmpty()) {
-                                    listOf(android.graphics.Color.LTGRAY)
+                                if (viewModel.totalIncome <= 0.0 && expensesByCategory.isEmpty()) {
+                                    // Если денег нет вообще — рисуем пустую серую баранку
+                                    entries.add(PieEntry(1f, ""))
+                                    chartColors.add(AndroidColor.parseColor("#333333")) // Темно-серый для пустоты
                                 } else {
-                                    expensesByCategory.entries.map { (catId, _) ->
+                                    // 1. Добавляем реальные траты по категориям
+                                    expensesByCategory.forEach { (catId, amount) ->
+                                        entries.add(PieEntry(amount.toFloat(), ""))
                                         val hexColor = categories.find { it.id == catId }?.color ?: "#B0BEC5"
-                                        hexColor.toColorInt()
+                                        chartColors.add(hexColor.toColorInt())
+                                    }
+
+                                    // 2. ДОБАВЛЯЕМ ОСТАТОК (БАЛАНС)!
+                                    // Именно он не даст одной трате занять весь круг
+                                    if (viewModel.balance > 0) {
+                                        entries.add(PieEntry(viewModel.balance.toFloat(), ""))
+                                        // Цвет остатка (свободных денег) делаем светло-серым
+                                        chartColors.add(AndroidColor.parseColor("#E0E0E0"))
                                     }
                                 }
 
                                 chart.data = PieData(PieDataSet(entries, "").apply {
                                     this.colors = chartColors
                                     setDrawValues(false)
+                                    // Убираем промежутки между кусками, чтобы смотрелось монолитно
+                                    sliceSpace = 2f
                                 })
                                 chart.setTouchEnabled(expensesByCategory.isNotEmpty())
                                 chart.invalidate()
@@ -92,8 +100,8 @@ fun HomeScreen(viewModel: BudgetViewModel) {
                         )
                         Column(modifier = Modifier.align(Alignment.Center), horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(
-                                "%.0f€".format(viewModel.balance)
-                                , fontSize = 18.sp,
+                                "%.0f€".format(viewModel.balance),
+                                fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold
                             )
                             Text(
@@ -105,13 +113,14 @@ fun HomeScreen(viewModel: BudgetViewModel) {
                     Spacer(modifier = Modifier.width(16.dp))
                     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                         Column {
-                            //  Income
-                            Text(stringResource(R.string.get_income),
+                            // Income
+                            Text(
+                                stringResource(R.string.get_income),
                                 fontSize = 12.sp,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Text(
-                                "+%.2f €".format(viewModel.totalIncome),
+                                "+%.2f €".format(totalIncome),
                                 color = Color(0xFF4CAF50),
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 16.sp
@@ -125,9 +134,9 @@ fun HomeScreen(viewModel: BudgetViewModel) {
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Text(
-                                "-%.2f €".format(viewModel.totalExpense)
-                                , color = MaterialTheme.colorScheme.error, fontWeight = FontWeight.Bold
-                                , fontSize = 16.sp
+                                "-%.2f €".format(totalExpense),
+                                color = MaterialTheme.colorScheme.error, fontWeight = FontWeight.Bold,
+                                fontSize = 16.sp
                             )
                         }
                     }
@@ -144,16 +153,16 @@ fun HomeScreen(viewModel: BudgetViewModel) {
                 }
                 items(expensesByCategory.entries.toList()) { (catId, amount) ->
                     val category = categories.find { it.id == catId }
-                    val catName = category?.nameResId ?: "Other"
+                    val categoryName = category?.nameResId ?: "Other"
                     val hexColor = category?.color ?: "#B0BEC5"
                     val composeColor = Color(hexColor.toColorInt())
-                    val percent = if (viewModel.totalExpense > 0) (amount / viewModel.totalExpense * 100).toInt() else 0
+                    val percent = if (totalExpense > 0) (amount / totalExpense * 100).toInt() else 0
 
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Box(modifier = Modifier.size(12.dp).clip(CircleShape).background(composeColor))
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text(catName)
+                            Text(categoryName)
                         }
                         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                             Text(
@@ -170,7 +179,7 @@ fun HomeScreen(viewModel: BudgetViewModel) {
             }
 
             item {
-                //All transactions
+                // All transactions
                 Text(stringResource(R.string.get_all_transactions), fontWeight = FontWeight.SemiBold, fontSize = 16.sp, modifier = Modifier.padding(top = 8.dp))
             }
 
