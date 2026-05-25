@@ -19,6 +19,9 @@ import com.example.finly.R
 @Composable
 fun ExpensesScreen(viewModel: BudgetViewModel) {
     val expenseTransactions by viewModel.expenseTransactions.collectAsState()
+
+    val categories by viewModel.allCategories.collectAsState()
+
     var showDialog by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -68,7 +71,14 @@ fun ExpensesScreen(viewModel: BudgetViewModel) {
                 }
             } else {
                 items(expenseTransactions) { transaction ->
-                    TransactionCard(transaction = transaction, onDelete = { viewModel.deleteTransaction(transaction) })
+                    val category = categories.find { it.id == transaction.categoryId }
+                    val categoryName = category?.nameResId ?: "Other"
+
+                    TransactionCard(
+                        transaction = transaction,
+                        categoryName = categoryName,
+                        onDelete = { viewModel.deleteTransaction(transaction) }
+                    )
                 }
             }
         }

@@ -19,7 +19,7 @@ import com.example.finly.data.model.Transaction
 import com.example.finly.data.model.TransactionType
 
 @Composable
-fun TransactionCard(transaction: Transaction, onDelete: () -> Unit) {
+fun TransactionCard(transaction: Transaction, categoryName: String, onDelete: () -> Unit) {
     val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
 
     Card(modifier = Modifier.fillMaxWidth()) {
@@ -32,12 +32,9 @@ fun TransactionCard(transaction: Transaction, onDelete: () -> Unit) {
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = if (transaction.type == TransactionType.INCOME) {
-                        stringResource(R.string.get_income)
-                    } else {
-                        stringResource(R.string.get_expenses)
-                    },
-                    fontWeight = FontWeight.Medium
+                    text = categoryName,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
                 )
                 Text(
                     text = dateFormat.format(Date(transaction.date)),

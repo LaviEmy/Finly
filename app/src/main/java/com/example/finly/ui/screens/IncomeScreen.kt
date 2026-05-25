@@ -21,6 +21,10 @@ import com.example.finly.viewModel.BudgetViewModel
 @Composable
 fun IncomeScreen(viewModel: BudgetViewModel) {
     val incomeTransactions by viewModel.incomeTransactions.collectAsState()
+
+    // 1. ДОБАВИЛИ ЭТУ СТРОЧКУ, чтобы экран доходов тоже знал все категории
+    val categories by viewModel.allCategories.collectAsState()
+
     var showDialog by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -67,7 +71,16 @@ fun IncomeScreen(viewModel: BudgetViewModel) {
                 }
             } else {
                 items(incomeTransactions) { transaction ->
-                    TransactionCard(transaction = transaction, onDelete = { viewModel.deleteTransaction(transaction) })
+                    // 2. ИЩЕМ КАТЕГОРИЮ ПО ID ТРАНЗАКЦИИ:
+                    val category = categories.find { it.id == transaction.categoryId }
+                    val categoryName = category?.nameResId ?: "Other"
+
+                    // 3. ПЕРЕДАЕМ ИМЯ В КАРТОЧКУ!
+                    TransactionCard(
+                        transaction = transaction,
+                        categoryName = categoryName,
+                        onDelete = { viewModel.deleteTransaction(transaction) }
+                    )
                 }
             }
         }

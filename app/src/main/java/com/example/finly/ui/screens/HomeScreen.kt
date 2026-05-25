@@ -191,7 +191,13 @@ fun HomeScreen(viewModel: BudgetViewModel) {
                 }
             } else {
                 items(transactions) { transaction ->
-                    TransactionCard(transaction = transaction, onDelete = { viewModel.deleteTransaction(transaction) })
+                    val category = categories.find { it.id == transaction.categoryId }
+                    val categoryName = category?.nameResId ?: "Other"
+                    TransactionCard(
+                        transaction = transaction,
+                        categoryName = categoryName,
+                        onDelete = { viewModel.deleteTransaction(transaction) }
+                    )
                 }
             }
         }
