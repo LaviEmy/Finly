@@ -1,9 +1,9 @@
 package com.example.finly
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,7 +20,7 @@ import com.example.finly.ui.theme.FinlyTheme
 import com.example.finly.viewModel.BudgetViewModel
 import com.example.finly.viewModel.BudgetViewModelFactory
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -38,8 +38,8 @@ class MainActivity : ComponentActivity() {
             var isDarkTheme by remember {
                 mutableStateOf(sharedPref.getBoolean("dark_theme", systemTheme))
             }
+            val viewModel: BudgetViewModel = viewModel(factory = factory)
             FinlyTheme(darkTheme = isDarkTheme) {
-                val viewModel: BudgetViewModel = viewModel(factory = factory)
                 FinlyApp(
                     viewModel = viewModel,
                     isDarkTheme = isDarkTheme,
