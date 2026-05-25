@@ -69,7 +69,7 @@ class BudgetViewModel(private val transactionsRepository: TransactionsRepository
     fun addTransaction(amount: Double, type: TransactionType, categoryId: Int, note: String = "") {
         viewModelScope.launch {
             transactionsRepository.insert(
-                Transaction(amount = amount, type = type, categoryId = categoryId, note = note)
+                Transaction(amount = amount, type = type, categoryId = categoryId)
             )
         }
     }
