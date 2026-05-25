@@ -92,11 +92,11 @@ fun AddTransactionDialog(
                     if (isIncome) TransactionType.INCOME else TransactionType.EXPENSE, categoryId
                 )
                 onDismiss()
-            }) { Text(stringResource(R.string.button_add)) }
+            }) { Text(stringResource(R.string.btn_add)) }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.button_cancel))
+                Text(stringResource(R.string.btn_cancel))
             }
         }
     )

@@ -42,7 +42,7 @@ fun HomeScreen(viewModel: BudgetViewModel) {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = { showDialog = true }) {
-                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.button_add))
+                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.btn_add))
             }
         }
     ) { padding ->

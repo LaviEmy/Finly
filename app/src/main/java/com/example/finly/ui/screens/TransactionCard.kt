@@ -55,7 +55,7 @@ fun TransactionCard(transaction: Transaction, onDelete: () -> Unit) {
             IconButton(onClick = onDelete) {
                 Icon(
                     imageVector = Icons.Default.Delete,
-                    contentDescription = stringResource(R.string.button_delete),
+                    contentDescription = stringResource(R.string.btn_delete),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
