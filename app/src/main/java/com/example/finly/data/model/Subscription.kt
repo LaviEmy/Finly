@@ -10,5 +10,4 @@ data class Subscription(
     val name: String,
     val amount: Double,
     val billingDay: Int,        // день месяца (1-31)
-
 )

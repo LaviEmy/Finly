@@ -10,6 +10,5 @@ data class Debt(
     val name: String,
     val totalAmount: Double,
     val paidAmount: Double = 0.0,
-    val dueDate: Long? = null,
-
-    )
+    val dueDate: Long? = null
+)

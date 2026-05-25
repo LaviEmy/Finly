@@ -11,6 +11,5 @@ data class Transaction(
     val amount: Double,
     val type: TransactionType,
     val categoryId: Int,
-    val date: Long = System.currentTimeMillis(),
-    val note: String = ""
+    val date: Long = System.currentTimeMillis()
 )

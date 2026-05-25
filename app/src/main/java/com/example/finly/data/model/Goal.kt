@@ -11,5 +11,4 @@ data class Goal(
     val targetAmount: Double,
     val currentAmount: Double = 0.0,
     val deadline: Long? = null
-
 )
