@@ -116,7 +116,6 @@ class BudgetViewModel(private val transactionsRepository: TransactionsRepository
     fun updateDebt(debt: Debt) { viewModelScope.launch { debtRepository.update(debt) } }
     fun deleteDebt(debt: Debt) { viewModelScope.launch { debtRepository.delete(debt) } }
 
-    // Подписки
     val subscriptions: StateFlow<List<Subscription>> = subscriptionRepository.getAllSubscriptions()
         .stateIn(
             viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())

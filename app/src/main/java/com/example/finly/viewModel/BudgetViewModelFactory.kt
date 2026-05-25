@@ -14,13 +14,18 @@ class BudgetViewModelFactory
      private val categoryRepository: CategoryRepository,
             private val goalRepository: GoalRepository,
             private val debtRepository: DebtRepository,
-            private val subsriptionRepository: SubscriptionRepository
+            private val subscriptionRepository: SubscriptionRepository
     ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(BudgetViewModelFactory::class.java)) {
+        if (modelClass.isAssignableFrom(BudgetViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return BudgetViewModelFactory(transactionsRepository, categoryRepository,
-                goalRepository, debtRepository, subsriptionRepository) as T
+            return BudgetViewModel(
+                transactionsRepository,
+                categoryRepository,
+                goalRepository,
+                debtRepository,
+                subscriptionRepository
+            ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
