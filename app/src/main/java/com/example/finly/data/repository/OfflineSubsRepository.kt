@@ -4,7 +4,7 @@ import com.example.finly.data.dao.SubscriptionDao
 import com.example.finly.data.model.Subscription
 import kotlinx.coroutines.flow.Flow
 
-class OfflineSubsRepository (private val subscriptionDao: SubscriptionDao) : SubsriptionRepository{
+class OfflineSubsRepository (private val subscriptionDao: SubscriptionDao) : SubscriptionRepository{
 
     override fun getAllSubscriptions(): Flow<List<Subscription>> = subscriptionDao.getAllSubscriptions()
 
