@@ -83,7 +83,6 @@ fun FinlyApp(
                 composable(Screen.Goals.route) { GoalsScreen(viewModel) }
                 composable(Screen.Debts.route) { DebtsScreen(viewModel) }
                 composable(Screen.Subscriptions.route) { SubscriptionsScreen(viewModel) }
-                // Передаем стейт темы в настройки
                 composable(Screen.Settings.route) { SettingsScreen(isDarkTheme, onThemeChange) }
             }
         }

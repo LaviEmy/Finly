@@ -71,11 +71,11 @@ fun IncomeScreen(viewModel: BudgetViewModel) {
                 }
             } else {
                 items(incomeTransactions) { transaction ->
-                    // 2. ИЩЕМ КАТЕГОРИЮ ПО ID ТРАНЗАКЦИИ:
+
                     val category = categories.find { it.id == transaction.categoryId }
                     val categoryName = category?.nameResId ?: "Other"
 
-                    // 3. ПЕРЕДАЕМ ИМЯ В КАРТОЧКУ!
+
                     TransactionCard(
                         transaction = transaction,
                         categoryName = categoryName,

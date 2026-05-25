@@ -9,5 +9,5 @@ data class Subscription(
     val id: Int = 0,
     val name: String,
     val amount: Double,
-    val billingDay: Int,        // день месяца (1-31)
+    val billingDay: Int,
 )

@@ -8,7 +8,7 @@ import androidx.room.Query
 import com.example.finly.data.model.Category
 import kotlinx.coroutines.flow.Flow
 
-// CategoryDao.kt
+
 @Dao
 interface CategoryDao {
 

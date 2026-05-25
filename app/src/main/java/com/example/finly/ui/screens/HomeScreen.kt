@@ -67,19 +67,17 @@ fun HomeScreen(viewModel: BudgetViewModel) {
                                 val chartColors = mutableListOf<Int>()
 
                                 if (viewModel.totalIncome <= 0.0 && expensesByCategory.isEmpty()) {
-                                    // Если денег нет вообще — рисуем пустую серую баранку
+
                                     entries.add(PieEntry(1f, ""))
-                                    chartColors.add(AndroidColor.parseColor("#333333")) // Темно-серый для пустоты
+                                    chartColors.add(AndroidColor.parseColor("#333333"))
                                 } else {
-                                    // 1. Добавляем реальные траты по категориям
+
                                     expensesByCategory.forEach { (catId, amount) ->
                                         entries.add(PieEntry(amount.toFloat(), ""))
                                         val hexColor = categories.find { it.id == catId }?.color ?: "#B0BEC5"
                                         chartColors.add(hexColor.toColorInt())
                                     }
 
-                                    // 2. ДОБАВЛЯЕМ ОСТАТОК (БАЛАНС)!
-                                    // Именно он не даст одной трате занять весь круг
                                     if (viewModel.balance > 0) {
                                         entries.add(PieEntry(viewModel.balance.toFloat(), ""))
                                         // Цвет остатка (свободных денег) делаем светло-серым

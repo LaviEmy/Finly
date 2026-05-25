@@ -28,7 +28,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun transactionDao(): TransactionDao
     abstract fun categoryDao(): CategoryDao
 
-    // Добавили связи с твоими новыми DAO
     abstract fun goalDao(): GoalDao
     abstract fun debtDao(): DebtDao
     abstract fun subscriptionDao(): SubscriptionDao
@@ -56,7 +55,6 @@ abstract class AppDatabase : RoomDatabase() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
 
-            // Расходы (добавили колонку color и одинарные кавычки вокруг HEX)
             db.execSQL("INSERT INTO categories (nameResId, isForIncome, isDefault, color) VALUES ('Groceries', 0, 1, '#e5b51e')")
             db.execSQL("INSERT INTO categories (nameResId, isForIncome, isDefault, color) VALUES ('Cafe', 0, 1, '#e5cf1e')")
             db.execSQL("INSERT INTO categories (nameResId, isForIncome, isDefault, color) VALUES ('Shopping', 0, 1, '#e377be')")
@@ -68,7 +66,7 @@ abstract class AppDatabase : RoomDatabase() {
             db.execSQL("INSERT INTO categories (nameResId, isForIncome, isDefault, color) VALUES ('Loan', 0, 1, '#d43555')")
             db.execSQL("INSERT INTO categories (nameResId, isForIncome, isDefault, color) VALUES ('Other', 0, 1, '#d435ce')")
 
-            // Доходы
+
             db.execSQL("INSERT INTO categories (nameResId, isForIncome, isDefault, color) VALUES ('Salary', 1, 1, '#34f103')")
             db.execSQL("INSERT INTO categories (nameResId, isForIncome, isDefault, color) VALUES ('Dividends', 1, 1, '#3ff410')")
             db.execSQL("INSERT INTO categories (nameResId, isForIncome, isDefault, color) VALUES ('Gift', 1, 1, '#53ee2b')")
